@@ -1,16 +1,38 @@
 <?php
 require 'connection.php';
+require 'function.php';
+
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: *, Authorization');
 header('Access-Control-Allow-Methods: *');
 header('Access-Control-Allow-Credentials: true');
 header('Content-type: json/application ');
-$doctor = mysqli_query($connect,'SELECT * FROM `doctor`');
 
-$doctorList = [];
+$method = $_SERVER['REQUEST_METHOD'];
 
-while ($doctors = mysqli_fetch_assoc($doctor)){
-    $doctorList[] = $doctors;
+$q = $_GET['q'];
+
+$params = explode('/', $q);
+
+$type = $params[0];
+$id = $params[1];
+
+if ($method === 'GET' ){
+    if ($type === 'doctor'){
+        if ( isset($id) ){
+            getInfo($connect,$id);
+        }
+        else{
+            getDoctor($connect);
+        }
+    }
+ } elseif ($method === 'POST'){
+    if($type === 'doctor'){
+        addDoctor($connect, $_POST);
+    }
 }
-//
-echo json_encode($doctorList);
+
+
+
+
+
