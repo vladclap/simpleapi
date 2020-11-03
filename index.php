@@ -20,7 +20,7 @@ $id = $params[1];
 if ($method === 'GET' ){
     if ($type === 'doctor'){
         if ( isset($id) ){
-            getInfo($connect,$id);
+            getInfo($connect, $id);
         }
         else{
             getDoctor($connect);
@@ -30,6 +30,22 @@ if ($method === 'GET' ){
     if($type === 'doctor'){
         addDoctor($connect, $_POST);
     }
+} elseif ($method === 'PATCH'){
+    if($type === 'doctor'){
+        if(isset($id)){
+            $data = file_get_contents('php://input');
+            $data = json_decode($data,true);
+        updateDoctor($connect, $id, $data);
+        }
+    }
+
+}elseif($method === 'DELETE'){
+    if($type === 'doctor'){
+        if(isset($id)){
+            deleteDoctor($connect, $id );
+        }
+    }
+
 }
 
 

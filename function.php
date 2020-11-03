@@ -31,7 +31,7 @@
              $picture = $data['picture'];
              $rating = $data['rating'];
              $specialty = $data['specialty'];
-             $id = mysqli_insert_id($connect);
+
  mysqli_query($connect, "INSERT INTO `doctor` (`id`, `name`, `picture`, `rating`, `specialty`) VALUES (NULL,'$name', '$picture', '$rating', '$specialty')");
 
      http_response_code(201);
@@ -42,5 +42,28 @@
      echo json_encode($res);
  }
 
+ function updateDoctor($connect, $id, $data){
+     $name = $data['name'];
+     $picture = $data['picture'];
+     $rating = $data['rating'];
+     $specialty = $data['specialty'];
+     mysqli_query($connect,"UPDATE `doctor` SET `name` = '$name', `picture` = '$picture', `rating` = '$rating', `specialty` = '$specialty' WHERE `doctor`.`id` = '$id'");
+
+     http_response_code(200);
+     $res = [
+         "status" => true,
+         "message" => " Doctor is updated"
+     ];
+     echo json_encode($res);
+ }
+function deleteDoctor($connect,$id){
+      mysqli_query($connect,"DELETE FROM `doctor` WHERE `doctor`.`id` = '$id'");
+    http_response_code(200);
+    $res = [
+        "status" => true,
+        "message" => " Doctor is deleted"
+    ];
+    echo json_encode($res);
+}
 
 
